@@ -51,7 +51,7 @@ It looks like you are setting up a website for a Data Carpentry curriculum but y
 {% endunless %}
 {% endif %}
 
-<h4>For the Spatial Data workshop on January 16 go to <a href = "https://rhodyrstats.github.io/2020-01-16-uri"/>https://rhodyrstats.github.io/2020-01-16-uri/</a>.</h4>
+<h4>For the Spatial Data workshop on January 16 go to <a href = "https://rhodyrstats.github.io/2020-01-16-uri/">https://rhodyrstats.github.io/2020-01-16-uri/</a>.</h4>
 
 <h4>For the Genomics workshop on January 17 go to <a href = "https://rhodyrstats.github.io/2020-01-17-uri/">https://rhodyrstats.github.io/2020-01-17-uri/</a>.</h4>
 
