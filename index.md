@@ -332,3 +332,8 @@ please preview your site before committing, and make sure to run
 {% elsif site.carpentry == "lc" %}
 {% include lc/setup.html %}
 {% endif %}
+
+<h2>Workshop Sponsorship</h2>
+<p>
+Thanks to the [University of Rhode Island's Coastal Institute](https://ci.uri.edu/) for administrative and finacial support for this workshop.
+</p>
