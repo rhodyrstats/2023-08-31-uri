@@ -335,5 +335,6 @@ please preview your site before committing, and make sure to run
 
 <h2>Workshop Sponsorship</h2>
 <p>
-Thanks to the [University of Rhode Island's Coastal Institute](https://ci.uri.edu/) for administrative and finacial support for this workshop.
+Thanks to the <a href="https://ci.uri.edu/">University of Rhode Island's Coastal Institute</a> for administrative and financial support for this workshop.
+<img src="https://web.uri.edu/coastalinstitute/files/CI_Logo_high_res_web.jpg"></img>
 </p>
