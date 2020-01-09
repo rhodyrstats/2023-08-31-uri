@@ -341,3 +341,52 @@ Note that the data are sent from one function to the next so in subsequent funct
 you do not provide the name of the data.
 Make sure to put the pipe at the end of the line when using multiple lines so the processing
 doesn't end prematurely.
+
+<p style="color:blue">
+Some may find it helpful to read the pipe like the word "then". For instance,
+in the above example, we took the data frame `temperatures_max`, *then* we `filter`ed
+for rows with `site_name == "PERTH AIRPORT"`, *then* we `filter`ed
+for rows with `year == 2019`.
+Make sure to use the double equals sign when checking for equality.
+A single equals will assign data to a variable.
+
+### Split-apply-combine data analysis and the `summarize()` function
+
+Now we know how to calculate one example, but we would like the mean max temperature
+for all cities for all years.
+To get this information we'll generate a summary table.
+
+<p style="color:blue">
+Many data analysis tasks can be approached using the *split-apply-combine*
+paradigm: split the data into groups, apply some analysis to each group, and
+then combine the results. **`dplyr`** makes this very easy through the use of the
+`group_by()` function.
+
+#### The `summarize()` function
+
+`group_by()` is often used together with `summarize()`, which collapses each
+group into a single-row summary of that group.  `group_by()` takes as arguments
+the column names that contain the **categorical** variables for which you want
+to calculate the summary statistics. So to compute the mean `weight` by sex:
+</p>
+
+In this case we are interested in one result for each city for each year.
+That means we'll group by these variables.
+Then we'll generate a summary table.
+In this table we want to calculate the mean of the temperature for each group.
+
+```{r}
+mean_max_temp <- temperatures_maxs %>%
+  filter(!is.na(temperature)) %>%
+  group_by(city_name,year) %>%
+  summarize(mean_max_temp = mean(temperature))
+```
+
+Now you can plot. This is a challenge.
+Don't forget to fix your axis labels.
+```{r}
+ggplot(mean_max_temp, aes(year, mean_max_temp,color=city_name)) +
+         geom_line()+
+  labs(x = "Year", y = "Mean Temperature (Celsius)", color = "") +
+  theme_bw()
+```
