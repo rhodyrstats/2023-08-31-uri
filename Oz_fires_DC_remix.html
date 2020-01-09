@@ -550,23 +550,26 @@ To choose rows based on a specific criterion, use <code>filter()</code>.
 <pre class="r"><code>temperatures_maxs_PerthAir$year &lt;- year(temperatures_maxs_PerthAir$date)</code></pre>
 <p>Now you can filter for data from 2019. This is a challenge.</p>
 <pre class="r"><code>temperatures_maxs_PerthAir_2019 &lt;- filter(temperatures_maxs_PerthAir,year == 2019)</code></pre>
-<p>Now you can calculate the mean max temperature for this site in this year using the mean function.</p>
+<p>Now you can calculate the mean max temperature for this site in this year using the mean function. This is a challenge.</p>
 <pre class="r"><code>mean(temperatures_maxs_PerthAir_2019$temperature)</code></pre>
 <pre><code>## [1] 28.5649</code></pre>
 <p style="color:blue">
 </div>
 <div id="pipes" class="section level3">
 <h3>Pipes</h3>
-<p>What if you want to select and filter at the same time? There are three ways to do this: use intermediate steps, nested functions, or pipes.</p>
-<p>With intermediate steps, you create a temporary data frame and use that as input to the next function, like this:</p>
-<pre class="r"><code>#surveys2 &lt;- filter(surveys, weight &lt; 5)
-#surveys_sml &lt;- select(surveys2, species_id, sex, weight)</code></pre>
+<p>What if you want to do multiple filter steps at the same time? There are three ways to do this: use intermediate steps, nested functions, or pipes.</p>
+<p>You probably took the intermediate step approach in your prior work.</p>
 <p>This is readable, but can clutter up your workspace with lots of objects that you have to name individually. With multiple steps, that can be hard to keep track of.</p>
 <p>You can also nest functions (i.e. one function inside of another), like this:</p>
-<pre class="r"><code>#surveys_sml &lt;- select(filter(surveys, weight &lt; 5), species_id, sex, weight)</code></pre>
+<pre class="r"><code>temperatures_maxs$year &lt;- year(temperatures_maxs$date)
+temperatures_maxs_PerthAir_2019 &lt;- filter(filter(temperatures_maxs,site_name == &quot;PERTH AIRPORT&quot;),year == 2019)</code></pre>
 <p>This is handy, but can be difficult to read if too many functions are nested, as R evaluates the expression from the inside out (in this case, filtering, then selecting).</p>
-The last option, <em>pipes</em>, are a recent addition to R. Pipes let you take the output of one function and send it directly to the next, which is useful when you need to do many things to the same dataset. Pipes in R look like <code>%&gt;%</code> and are made available via the <strong><code>magrittr</code></strong> package, installed automatically with <strong><code>dplyr</code></strong>.
+The last option, <em>pipes</em>, let you take the output of one function and send it directly to the next, which is useful when you need to do many things to the same dataset. Pipes in R look like <code>%&gt;%</code> and are made available via the <strong><code>magrittr</code></strong> package, installed automatically with <strong><code>dplyr</code></strong>.
 </p>
+<pre class="r"><code>temperatures_maxs_PerthAir_2019 &lt;- temperatures_maxs %&gt;%
+  filter(site_name == &quot;PERTH AIRPORT&quot;) %&gt;%
+  filter(year == 2019)</code></pre>
+<p>Note that the data are sent from one function to the next so in subsequent functions you do not provide the name of the data. Make sure to put the pipe at the end of the line when using multiple lines so the processing doesn’t end prematurely.</p>
 </div>
 </div>
 

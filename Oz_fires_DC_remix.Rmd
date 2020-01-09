@@ -296,46 +296,48 @@ This is a challenge.
 
 ```{r f2}
 temperatures_maxs_PerthAir_2019 <- filter(temperatures_maxs_PerthAir,year == 2019)
-
 ```
 
 Now you can calculate the mean max temperature for this site in this year using the mean
-function.
+function. This is a challenge.
 
 ```{r m}
 mean(temperatures_maxs_PerthAir_2019$temperature)
-
 ```
 
 <p style="color:blue">
 ### Pipes
 
-What if you want to select and filter at the same time? There are three
+What if you want to do multiple filter steps at the same time? There are three
 ways to do this: use intermediate steps, nested functions, or pipes.
 
-With intermediate steps, you create a temporary data frame and use
-that as input to the next function, like this:
-
-```{r, purl = FALSE}
-#surveys2 <- filter(surveys, weight < 5)
-#surveys_sml <- select(surveys2, species_id, sex, weight)
-```
+You probably took the intermediate step approach in your prior work.
 
 This is readable, but can clutter up your workspace with lots of objects that you have to name individually. With multiple steps, that can be hard to keep track of.
 
 You can also nest functions (i.e. one function inside of another), like this:
 
-```{r, purl = FALSE}
-#surveys_sml <- select(filter(surveys, weight < 5), species_id, sex, weight)
+```{r}
+temperatures_maxs$year <- year(temperatures_maxs$date)
+temperatures_maxs_PerthAir_2019 <- filter(filter(temperatures_maxs,site_name == "PERTH AIRPORT"),year == 2019)
 ```
 This is handy, but can be difficult to read if too many functions are nested, as
 R evaluates the expression from the inside out (in this case, filtering, then selecting).
 
-The last option, *pipes*, are a recent addition to R. Pipes let you take
+The last option, *pipes*, let you take
 the output of one function and send it directly to the next, which is useful
 when you need to do many things to the same dataset.  Pipes in R look like
 `%>%` and are made available via the **`magrittr`** package, installed automatically
 with **`dplyr`**. 
 </p>
 
+```{r}
+temperatures_maxs_PerthAir_2019 <- temperatures_maxs %>%
+  filter(site_name == "PERTH AIRPORT") %>%
+  filter(year == 2019)
+```
 
+Note that the data are sent from one function to the next so in subsequent functions
+you do not provide the name of the data.
+Make sure to put the pipe at the end of the line when using multiple lines so the processing
+doesn't end prematurely.
