@@ -1,0 +1,83 @@
+---
+title: "Data Carpentry Workshop Remix Jan 15, 2020"
+author: "Rachel Schwartz"
+output: html_document
+---
+
+```{r setup, include=FALSE}
+knitr::opts_chunk$set(echo = TRUE)
+```
+
+## Setup
+
+Check out the [Data Carpentry Intro](https://datacarpentry.org/R-ecology-lesson/00-before-we-start.html) before starting here.
+
+Note that this lesson is adapted from the [Data Carpentry Ecology Lesson](https://datacarpentry.org/R-ecology-lesson/index.html). You can find a lot more information there. Text that has been copied from this lesson is highlighted in blue.
+
+```{r pack, warning=FALSE}
+library(tidyverse)
+```
+
+## Get the Data
+
+The data used for this less is all about Australia, including its climate over time and recent fires. To learn more about Australia's devastating fires check out this NY Times [article](https://www.nytimes.com/interactive/2020/01/02/climate/australia-fires-map.html). The data and information comes from Tidy Tuesday, a weekly data project aimed at the R ecosystem. You can find more datasets at https://github.com/rfordatascience/tidytuesday . 
+
+The data are available online so the first thing we'll do is load them into R.
+To load data you'll need to use a *function*.
+
+<p style="color:blue">
+Functions are "canned scripts" that automate more complicated sets of commands
+including operations assignments, etc. Many functions are predefined, or can be
+made available by importing R *packages* (more on that later). A function
+usually takes one or more inputs called *arguments*. Functions often (but not
+always) return a *value*. A typical example would be the function `sqrt()`. The
+input (the argument) must be a number, and the return value (in fact, the
+output) is the square root of that number. Executing a function ('running it')
+is called *calling* the function.
+</p>
+
+We'll read in our data using the `read_csv()` function, from the tidyverse package **`readr`**.
+We assign each dataset to a variable so we can reuse it.
+The name of the variable is on the left side of the arrow.
+The action we're doing with the function is on the write side.
+
+```{r data}
+rainfall <- read_csv('https://tinyurl.com/Oz-fire-rain')
+temperature <- read_csv('https://tinyurl.com/Oz-fire-temp')
+```
+
+You can see some information about the data we have just loaded.
+The name of each column is shown along with the type of data in that column.
+The data are stored in a format we call a data frame.
+For more details on this dataset see the [Tidy Tuesday site](https://github.com/rfordatascience/tidytuesday/tree/master/data/2020/2020-01-07).
+
+<p style="color:blue">
+This statement doesn’t produce any output because assignments don’t display anything. 
+If we want to check that our data has been loaded, we can see the contents of the data frame by typing its name:`rainfall`.
+</p>
+
+```{r d2}
+rainfall
+```
+
+You can also view the data in a separate window by clicking on its name in the Global Environment window.
+Here you can also see some information about the data. Note how much data we have!
+
+Note that we've read our data from a website, but you can read local files as well.
+These files are in csv format, which means plain text where columns are separated by commas.
+This is a very simple format that avoids all the complexity of Excel.
+If you need to read an Excel file you can either export as a csv or use a different function to read the data.
+
+For more information on data frames see the [Starting with Data](https://datacarpentry.org/R-ecology-lesson/02-starting-with-data.html#what_are_data_frames) section of the Data Carpentry lesson.
+
+## Basic data exploration
+
+For a really basic exploratory analysis let's look at how temperature is changing in Australian cities over time.
+I've summarized our original dataset so you can make your first plot more easily.
+First: read your data from 
+
+```{r t}
+
+ggplot(rainfall, aes(month,rainfall)) +
+  geom_point()
+```
