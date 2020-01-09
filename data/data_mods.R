@@ -28,3 +28,8 @@ yearly_temp <- temperature %>%
 write_csv(yearly_temp,path="data/Oz_mean_temp.csv")
 ggplot(yearly_temp, aes(year,temperature,color=city_name)) +
   geom_line()
+
+temperatures_maxs <- filter(temperature,temp_type == "max")
+temperatures_maxs %>% filter(site_name == "PERTH AIRPORT") %>%
+  filter(!is.na(temperature)) %>%
+  summarize(temperature = mean(temperature)) 
