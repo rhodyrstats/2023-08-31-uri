@@ -71,6 +71,7 @@ rainfall
 
 You can also view the data in a separate window by clicking on its name in the Global Environment window.
 Here you can also see some information about the data. Note how much data we have!
+Click the arrow next to `rainfall` to view the columns and type of data in each column.
 
 Note that we've read our data from a website, but you can read local files as well.
 These files are in csv format, which means plain text where columns are separated by commas.
@@ -80,6 +81,13 @@ If you need to read an Excel file you can either export as a csv or use a differ
 For more information on data frames see the [Starting with Data](https://datacarpentry.org/R-ecology-lesson/02-starting-with-data.html#what_are_data_frames) section of the Data Carpentry lesson.
 
 ## Basic data exploration
+
+One handy way to look at your data is to get a summary table.
+Let's do this for the temperature dataset.
+
+```{r}
+summary(temperature)
+```
 
 For a really basic exploratory analysis let's look at how temperature is changing in Australian cities over time.
 I've summarized our original dataset so you can make your first plot more easily.
@@ -389,4 +397,114 @@ ggplot(mean_max_temp, aes(year, mean_max_temp,color=city_name)) +
          geom_line()+
   labs(x = "Year", y = "Mean Temperature (Celsius)", color = "") +
   theme_bw()
+```
+
+Note that we have lots of data but it's a bit hard to compare in the table.
+That's because when we work with data in R we typically use "long form".
+That means for everyone combination of variables (year and city),
+we have one observation (mean temp).
+Humans typically like to see data in "wide form".
+We could have year as rows and city as columns and the values in the middle as temperature.
+To convert from long form to wide form we can use the `spread`
+function.
+
+```{r}
+mean_max_temp_wide <- mean_max_temp %>%
+  spread(key = city_name,value = mean_max_temp)
+```
+
+Click on the data in the Environment to see it.
+
+You can save your new human-readable data.
+
+```{r}
+write_csv(mean_max_temp_wide, path = "data/mean_max_temp_wide.csv")
+```
+
+If you get data in wide form and need to convert it to long form to use in R use the `gather` function. This is a bit more complicated as you need to specify the columns you want to gather, the name of the column where those column names go, and the name of the column where all the values go.
+
+```{r}
+mean_max_temp_widetolong <- mean_max_temp_wide %>%
+  gather(-year, key = city_name,value = mean_max_temp)
+
+mean_max_temp_widetolong <- mean_max_temp_wide %>%
+  gather(2:8, key = city_name,value = mean_max_temp)
+
+mean_max_temp_widetolong <- mean_max_temp_wide %>%
+  gather(BRISBANE:SYDNEY, key = city_name,value = mean_max_temp)
+```
+
+## More data manipulation
+
+Another analysis we might be interested in is whether temperatures for individual months are increasing.
+
+First let's extract the month from the date information. This time we'll do it a bit differently
+
+```{r}
+temperature <- temperature %>%
+  mutate(year = year(date), month = month(date))
+```
+
+Now we can summarize by month and plot.
+
+```{r}
+monthly_temps <- temperature %>%
+  group_by(month, year) %>%
+  summarize(avg_temp = mean(temperature, na.rm = T)) 
+
+ggplot(monthly_temps, aes(month, avg_temp, group=year, color=year)) +
+  geom_line() + geom_point()
+```
+
+Did you notice that the color is along a scale?
+For R, year is a continuous variable so the scale is continuous.
+This probably isn't what you want.
+You might view year as a factor to separate the years distincly.
+
+```{r}
+ggplot(monthly_temps, aes(month, avg_temp, group=year, color=factor(year))) +
+  geom_line() + geom_point()
+```
+
+On the other hand, although you can see lighter colors mostly at the top, all those data are really messy anyway.
+There are really too many categories for a discrete variable.
+Let's try grouping the information by before and after 1964 to make things simpler.
+
+```{r}
+monthly_temps_by_period <- temperature %>%
+  mutate(time_period = ifelse( year <= 1964, 0, 1)) %>%
+  group_by(month, time_period) %>%
+  summarize(avg_temp = mean(temperature, na.rm = T)) 
+
+ggplot(monthly_temps_by_period, aes(month(month, label = T), avg_temp, 
+                                    group=time_period, col=factor(time_period))) +
+  geom_line() + geom_point() +
+  scale_color_discrete(name = "", labels = c("Before 1964", "After 1964")) +
+  labs(y = "Average Temperature (°C)",
+       x = "Month") 
+
+```
+
+What do you observe about how monthly temperatures differ?
+
+Save your plot!
+
+```{r, eval=FALSE}
+ggsave('avg_monthly_temps.png')
+```
+
+We can also look at cities separately.
+
+```{r}
+monthly_temps_by_period <- temperature %>%
+  mutate(time_period = ifelse( year <= 1964, 0, 1)) %>%
+  group_by(month, time_period, city_name) %>%
+  summarize(avg_temp = mean(temperature, na.rm = T)) 
+
+ggplot(monthly_temps_by_period, aes(month(month, label = T), avg_temp, 
+                                    group=time_period, col=factor(time_period))) +
+  geom_line() + geom_point() + facet_wrap(~city_name) +
+  scale_color_discrete(name = "", labels = c("Before 1964", "After 1964")) +
+  labs(y = "Average Temperature (°C)",
+       x = "Month") 
 ```
