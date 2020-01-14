@@ -692,7 +692,7 @@ ggplot(monthly_temps, aes(month, avg_temp, group=year, color=year)) +
 <p>What do you observe about how monthly temperatures differ?</p>
 <p>Save your plot!</p>
 <pre class="r"><code>ggsave(&#39;avg_monthly_temps.png&#39;)</code></pre>
-<p>We can also look at cities separately. Notice the <code>facet_wrap</code> function here to automatically create separate plots.</p>
+<p>We can also look at cities separately. Notice that I’ve redone my grouping for my summary table to include city. Notice the <code>facet_wrap</code> function here to automatically create separate plots.</p>
 <pre class="r"><code>monthly_temps_by_period &lt;- temperature %&gt;%
   mutate(time_period = ifelse( year &lt;= 1964, 0, 1)) %&gt;%
   group_by(month, time_period, city_name) %&gt;%

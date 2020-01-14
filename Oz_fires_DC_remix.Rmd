@@ -532,6 +532,7 @@ ggsave('avg_monthly_temps.png')
 ```
 
 We can also look at cities separately.
+Notice that I've redone my grouping for my summary table to include city.
 Notice the `facet_wrap` function here to automatically create separate plots.
 
 ```{r}
