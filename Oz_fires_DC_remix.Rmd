@@ -15,6 +15,7 @@ Instructors talk about the [Data Carpentry Intro](https://datacarpentry.org/R-ec
 Note that this lesson is adapted from the [Data Carpentry Ecology Lesson](https://datacarpentry.org/R-ecology-lesson/index.html). You can find a lot more information there. Text that has been copied from this lesson is highlighted in blue.
 
 ```{r pack, warning=FALSE}
+#install.packages("tidyverse")
 library(tidyverse)
 ```
 
@@ -28,12 +29,23 @@ To load data you'll need to use a *function*.
 <p style="color:blue">
 Functions are "canned scripts" that automate more complicated sets of commands
 including operations assignments, etc. Many functions are predefined, or can be
-made available by importing R *packages* (more on that later). A function
+made available by importing R *packages*. A function
 usually takes one or more inputs called *arguments*. Functions often (but not
 always) return a *value*. A typical example would be the function `sqrt()`. The
 input (the argument) must be a number, and the return value (in fact, the
 output) is the square root of that number. Executing a function ('running it')
 is called *calling* the function.
+</p>
+
+<p style="color:blue">
+Packages in R are basically sets of additional functions that let you do more
+stuff. The functions we've been using so far, like `str()` or `data.frame()`,
+come built into R; packages give you access to more of them. Before you use a
+package for the first time you need to install it on your machine, and then you
+should import it in every subsequent R session when you need it. You should
+already have installed the **`tidyverse`** package. This is an
+"umbrella-package" that installs several packages useful for data analysis which
+work together well such as **`tidyr`**, **`dplyr`**, **`ggplot2`**, **`tibble`**, etc.
 </p>
 
 We'll read in our data using the `read_csv()` function, from the tidyverse package **`readr`**.
@@ -221,20 +233,6 @@ given our original datasets.
 <p style="color:blue">
 ### Data Manipulation using **`dplyr`** and **`tidyr`**
 
-Bracket subsetting is handy, but it can be cumbersome and difficult to read,
-especially for complicated operations. Enter **`dplyr`**. **`dplyr`** is a package for
-making tabular data manipulation easier. It pairs nicely with **`tidyr`** which enables you to swiftly convert between different data formats for plotting and analysis.
-
-Packages in R are basically sets of additional functions that let you do more
-stuff. The functions we've been using so far, like `str()` or `data.frame()`,
-come built into R; packages give you access to more of them. Before you use a
-package for the first time you need to install it on your machine, and then you
-should import it in every subsequent R session when you need it. You should
-already have installed the **`tidyverse`** package. This is an
-"umbrella-package" that installs several packages useful for data analysis which
-work together well such as **`tidyr`**, **`dplyr`**, **`ggplot2`**, **`tibble`**, etc.
-
-
 The **`tidyverse`** package tries to address 3 common issues that arise when
 doing data analysis with some of the functions that come with R:
 
@@ -258,7 +256,7 @@ memory. The database connections essentially remove that limitation in that you
 can connect to a database of many hundreds of GB, conduct queries on it directly, and pull
 back into R only what you need for analysis.
 
-The package **`tidyr`** addresses the common problem of wanting to reshape your data for plotting and use by different R functions. Sometimes we want data sets where we have one row per measurement. Sometimes we want a data frame where each measurement type has its own column, and rows are instead more aggregated groups - like plots or aquaria. Moving back and forth between these formats is non-trivial, and **`tidyr`** gives you tools for this and more sophisticated  data manipulation.
+The package **`tidyr`** addresses the common problem of wanting to reshape your data for plotting and use by different R functions. Sometimes we want data sets where we have one row per measurement. Sometimes we want a data frame where each measurement type has its own column, and rows are instead more aggregated groups - like plots or aquaria. Moving back and forth between these formats is non-trivial, and **`tidyr`** gives you tools for this and more sophisticated data manipulation.
 
 To learn more about **`dplyr`** and **`tidyr`** after the workshop, you may want to check out this
 [handy data transformation with **`dplyr`** cheatsheet](https://github.com/rstudio/cheatsheets/raw/master/data-transformation.pdf) and this [one about **`tidyr`**](https://github.com/rstudio/cheatsheets/raw/master/data-import.pdf).
