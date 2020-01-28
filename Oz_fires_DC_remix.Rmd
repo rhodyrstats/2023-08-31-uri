@@ -108,6 +108,7 @@ rainfall
 You can also view the data in a separate window by clicking on its name in the Global Environment window.
 Here you can also see some information about the data. Note how much data we have!
 Click the arrow next to `rainfall` to view the columns and type of data in each column.
+For more information about this dataset (i.e.\ the metadata) see [https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-01-07/readme.md](https://github.com/rfordatascience/tidytuesday/blob/master/data/2020/2020-01-07/readme.md)
 
 Note that we've read our data from a website, but you can read local files as well.
 These files are in csv format, which means plain text where columns are separated by commas.
@@ -466,6 +467,19 @@ First let's extract the month from the date information. This time we'll do it a
 temperature <- temperature %>%
   mutate(year = year(date), month = month(date))
 ```
+
+Challenge: Examine how the temperature has increased over time in Canberra. Filter for data from Canberra. Get the average max temperature in each month for each year. Spread year to be viewable.
+```{r}
+monthly_temps_CAN <- temperature %>%
+  filter(city_name == "CANBERRA") %>%
+  filter(temp_type == "max") %>%
+  group_by(month, year) %>%
+  summarize(avg_temp = mean(temperature, na.rm = T)) %>%
+  spread(year, avg_temp)
+head(monthly_temps_CAN)
+
+```
+
 
 Now we can summarize by month and plot.
 
