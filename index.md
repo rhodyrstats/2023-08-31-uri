@@ -337,5 +337,5 @@ please preview your site before committing, and make sure to run
 <p align="center">
 <img src="https://web.uri.edu/coastalinstitute/files/CI_Logo_high_res_web.jpg"> 
 <br>
-This workshop is made possible in part by the support of the <a href="https://ci.uri.edu/">URI Coastal Institute</a>.
+This workshop is made possible in part by the support of the National Science Foundation.
 </p>
