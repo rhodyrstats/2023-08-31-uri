@@ -335,7 +335,5 @@ please preview your site before committing, and make sure to run
 
 <h2>Workshop Sponsorship</h2>
 <p align="center">
-<img src="https://web.uri.edu/coastalinstitute/files/CI_Logo_high_res_web.jpg"> 
-<br>
-This workshop is made possible in part by the support of the National Science Foundation.
+This workshop is made possible in part by a grant from the National Science Foundation to Rachel Schwartz.
 </p>
